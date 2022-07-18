@@ -31,7 +31,7 @@ function Home() {
             <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
               <div className="service-block">
                 <div className="service-icon mb20">
-                  <img src={require("./../Image/service-icon-1.png")} alt="" />{" "}
+                  <img src="./images/service-icon-1.png" alt="" />{" "}
                 </div>
 
                 <div className="service-content">

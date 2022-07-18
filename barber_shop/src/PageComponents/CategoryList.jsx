@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 function CategoryList() {
-    const [categories,setCategories]=useState(undefined)
-     useEffect( ()=>{
-        fetch('https://localhost:44370/api/category')
-        .then(response => response.json())
-        .then(data =>
-             {
-                console.log(data);
-                setCategories(data);
-            });
-     
-       
-      
-    } ,[]) ;
+  const [categories, setCategories] = useState(undefined);
+  useEffect(() => {
+    fetch("https://localhost:44370/api/category")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setCategories(data);
+      });
+  }, []);
 
   return (
     <div>
@@ -47,33 +43,29 @@ function CategoryList() {
             </div>
           </div>
           <div className="row">
-            
-          {categories?.map((category) => {
-            const picturePath=require(category.picture);
-                return (
-                  
-            <div key={category.id} className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-              <div className="service-block">
-                <div className="service-icon mb20">
-                  <img src={require(category.picture)} alt=" " />
-                </div>
+            {categories?.map((category) => {
+              return (
+                <div
+                  key={category.id}
+                  className="col-lg-4 col-md-4 col-sm-4 col-xs-12"
+                >
+                  <div className="service-block">
+                    <div className="service-icon mb20">
+                      <img src={category.picture} alt=" " />
+                    </div>
 
-                <div className="service-content">
-                  <h2>
-                    <a href="services.html" className="title">
-                    {category.name}
-                    </a>
-                  </h2>
-                  <p>
-                  {typeof(category.picture)}
-                  </p>
+                    <div className="service-content">
+                      <h2>
+                        <a href="services.html" className="title">
+                          {category.name}
+                        </a>
+                      </h2>
+                      <p>{category.description}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          
-          );
-        })}
-       
+              );
+            })}
           </div>
         </div>
       </div>

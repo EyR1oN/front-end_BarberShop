@@ -21,7 +21,6 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/categoryList" element={<CategoryList />} />
-         
         </Routes>
         <Footer />
       </BrowserRouter>

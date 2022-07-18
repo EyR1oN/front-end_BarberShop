@@ -744,7 +744,8 @@ label {
   padding-top: 140px;
   padding-bottom: 140px;
   background: linear-gradient(rgba(30, 28, 24, 0.8), rgba(30, 28, 24, 0.8)),
-    rgba(30, 28, 24, 0.8) url(./../Image/cta-section-img.jpg) no-repeat center;
+    rgba(30, 28, 24, 0.8) url(./../../public/images/cta-section-img.jpg)
+      no-repeat center;
   background-size: cover;
 }
 .cta-caption {
@@ -895,7 +896,8 @@ label {
   padding-top: 135px;
   padding-bottom: 135px;
   background: linear-gradient(rgba(36, 39, 38, 0.5), rgba(36, 39, 38, 0.5)),
-    rgba(36, 39, 38, 0.5) url(../Image/oldMan.jpg) no-repeat center;
+    rgba(36, 39, 38, 0.5) url(./../../public/images//oldMan.jpg) no-repeat
+      center;
   background-size: cover;
 }
 .hero-caption {
@@ -1271,7 +1273,8 @@ label {
 ----------------------------------------------*/
 .page-header {
   background: linear-gradient(rgba(36, 39, 38, 0.5), rgba(36, 39, 38, 0.5)),
-    rgba(36, 39, 38, 0.5) url(./../Image/page-header.jpg) no-repeat center;
+    rgba(36, 39, 38, 0.5) url(./../../public/images/page-header.jpg) no-repeat
+      center;
   background-size: cover;
   margin: 0;
   border-bottom: none;
@@ -1837,7 +1840,7 @@ div.registration-field {
 
 /*-------- Post Type --------*/
 .post-sticky {
-  background: url(./../Image/sticky.png) no-repeat;
+  background: url(./../../public/images/sticky.png) no-repeat;
   position: absolute;
   right: 35px;
   bottom: 35px;
