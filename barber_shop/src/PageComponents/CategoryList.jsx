@@ -22,7 +22,7 @@ function CategoryList() {
                 <div className="page-breadcrumb">
                   <ol className="breadcrumb">
                     <li>
-                      <a href="index.html">Home</a>
+                      <a href="/home">Home</a>
                     </li>
                     <li className="active">category list</li>
                   </ol>
@@ -50,13 +50,13 @@ function CategoryList() {
                   className="col-lg-4 col-md-4 col-sm-4 col-xs-12"
                 >
                   <div className="service-block">
-                    <div className="service-icon mb20">
-                      <img src={category.picture} alt=" " />
+                    <div className="service-icon">
+                      <img src={category.picture} className="img-category" alt=" " />
                     </div>
 
                     <div className="service-content">
                       <h2>
-                        <a href="services.html" className="title">
+                        <a href="/services" className="title">
                           {category.name}
                         </a>
                       </h2>
