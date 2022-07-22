@@ -1,6 +1,22 @@
-import React from 'react'
+import React, {  useState } from "react";
+import Cookies from 'universal-cookie';
 
 function Login() {
+    const[userLog,setUserLog]=useState({
+    username:undefined,
+    password:undefined
+});
+const handleLogin=()=>{
+       fetch("https://localhost:44370/api/user/"+userLog.username+"/"+userLog.password)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setUserLog(data);
+          });
+    
+
+    }
+
   return (
     <div>
         <div className="page-header">
@@ -29,17 +45,19 @@ function Login() {
                               <form>
                                 <div className="row">
                                     <div className="login-data">
-                                        <label className="control-label" for="name">Username</label>
-                                        <input type="text" name="name" id="name" placeholder="" className="form-control"/>
+                                        <label className="control-label" htmlFor="username">Username</label>
+                                        <input type="text" name="username" id="username" placeholder="" className="form-control"  
+                                        onChange={(e) => setUserLog((prev) => ({ ...prev, username: e.target.value })) }/>
                                     </div>
                                     <div className="login-data">
-                                        <label className="control-label" for="phone">Password</label>
-                                        <input type="password" name="phone" id="phone" placeholder="" className="form-control"/>
+                                        <label className="control-label" htmlFor="password">Password</label>
+                                        <input type="password" name="password" id="password" placeholder="" className="form-control" 
+                                        onChange={(e) => setUserLog((prev) => ({ ...prev, password: e.target.value })) }/>
                                     </div>
                                     
                                     <div className="col-md-12">
                                         <div className="login-register-button">
-                                            <button id="singlebutton" name="singlebutton" className="btn btn-default">Login</button>
+                                            <button id="singlebutton" name="singlebutton" className="btn btn-default" onClick={handleLogin}>Login</button>
                                         </div>
                                     </div>
                                     
