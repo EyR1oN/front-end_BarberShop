@@ -38,7 +38,7 @@ function Home() {
             </div>
           </div>
           <div className="row">
-          {categories?.map((category) => {
+            {categories?.map((category) => {
               return (
                 <div
                   key={category.id}
@@ -46,7 +46,11 @@ function Home() {
                 >
                   <div className="service-block">
                     <div className="service-icon">
-                      <img src={category.picture} className="img-category" alt=" " />
+                      <img
+                        src={category.picture}
+                        className="img-category"
+                        alt=" "
+                      />
                     </div>
 
                     <div className="service-content">

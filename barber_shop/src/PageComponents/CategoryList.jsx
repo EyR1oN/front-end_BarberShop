@@ -51,7 +51,11 @@ function CategoryList() {
                 >
                   <div className="service-block">
                     <div className="service-icon">
-                      <img src={category.picture} className="img-category" alt=" " />
+                      <img
+                        src={category.picture}
+                        className="img-category"
+                        alt=" "
+                      />
                     </div>
 
                     <div className="service-content">

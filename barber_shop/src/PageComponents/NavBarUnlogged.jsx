@@ -31,12 +31,12 @@ export default function NavBarUnloged() {
                     </Link>
                   </li>
                   <li>
-                  <Link to={"/login"} title="Log in">
+                    <Link to={"/login"} title="Log in">
                       Log in
                     </Link>
                   </li>
                   <li>
-                  <Link to={"/registration"} title="Registration">
+                    <Link to={"/registration"} title="Registration">
                       Registration
                     </Link>
                   </li>

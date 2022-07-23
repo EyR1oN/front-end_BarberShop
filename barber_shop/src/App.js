@@ -14,7 +14,6 @@ import Services from "./PageComponents/Services";
 import Login from "./PageComponents/Login";
 import Registration from "./PageComponents/Registration";
 
-
 function App() {
   return (
     <div className="App">
