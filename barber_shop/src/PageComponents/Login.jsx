@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    let navigate = useNavigate();
   const [userLog, setUserLog] = useState({
-    username: undefined,
-    password: undefined,
+    username: "",
+    password: "",
   });
+  const [formErrors, setFormErrors]= useState({});
+  //const [isSubmit, setIsSubmit]= useState(false);
+
   const handleLogin = (event) => {
+    setFormErrors(validate(userLog));
+   // setIsSubmit(true);
     event.preventDefault();
     fetch(
       "https://localhost:44370/api/user/" +
@@ -15,10 +22,27 @@ function Login() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log(data[0]);
         setUserLog(data);
+        window.localStorage.setItem("userData", JSON.stringify(data[0]));
+        navigate("/home");
+      //  console.log( JSON.parse(window.localStorage.getItem("userData")));
       });
+      
   };
+
+ 
+  const validate=(values)=>{
+    const errors={};
+  //  const regex=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if(!values.username){
+      errors.username="Username is required!";
+   }
+   if(!values.password){
+      errors.password="Password is required!";
+  }
+    return errors;
+};
 
   return (
     <div>
@@ -67,6 +91,7 @@ function Login() {
                       }
                     />
                   </div>
+                  <p className="errormess">{formErrors.username}</p>
                   <div className="login-data">
                     <label className="control-label" htmlFor="password">
                       Password
@@ -85,7 +110,7 @@ function Login() {
                       }
                     />
                   </div>
-
+                  <p className="errormess">{formErrors.password}</p>
                   <div className="col-md-12">
                     <div className="login-register-button">
                       <button
