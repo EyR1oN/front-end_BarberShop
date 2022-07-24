@@ -13,12 +13,13 @@ import CategoryList from "./PageComponents/CategoryList";
 import Services from "./PageComponents/Services";
 import Login from "./PageComponents/Login";
 import Registration from "./PageComponents/Registration";
+import NavBarController from "./PageComponents/NavBarController";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <NavBarUnlogged />
+        <NavBarController />
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/contact" element={<Contact />} />

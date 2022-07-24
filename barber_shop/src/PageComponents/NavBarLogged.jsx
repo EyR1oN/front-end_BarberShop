@@ -1,7 +1,11 @@
-import React from "react";
+import React, { Component, useState} from "react";
 import { Link } from "react-router-dom";
-
+import Logout from "./Logout";
+import { useNavigate } from "react-router-dom";
 export default function NavBarLogged() {
+  let navigate = useNavigate();
+ const[showLog, setShowLog]=useState(false);
+
   return (
     <div className="header">
       <div className="container">
@@ -32,14 +36,14 @@ export default function NavBarLogged() {
                   </li>
                   <li>
                     {" "}
-                    <a id="myBtn">Log out</a>
-                    <div id="myModal" class="modal">
+                    <a id="myBtn" onClick={()=>setShowLog(!showLog)}>Log out</a>
+                    {showLog &&  <div id="myModal" class="modal">
                       <div class="modal-content">
-                        <span class="close">&times;</span>
+                        <span class="close" onClick={()=>setShowLog(!showLog)}>&times;</span>
                         <p class="logout-text">Log out of Barbershop?</p>
-                        <button class="logout-button"> Log out</button>
+                        <button class="logout-button" onClick={()=>{window.localStorage.clear();navigate("/home")}}> Log out</button>
                       </div>
-                    </div>
+                    </div>}
                   </li>
                 </ul>
               </div>

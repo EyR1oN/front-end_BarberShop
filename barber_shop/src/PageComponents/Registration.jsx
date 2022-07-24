@@ -1,60 +1,48 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Registration() {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  let navigate = useNavigate();
 
-  const handleNameChange = (value) => {
-    setName(value);
-  };
-  const handleSurnameChange = (value) => {
-    setSurname(value);
-  };
-  const handleUsernameChange = (value) => {
-    setUsername(value);
-  };
-  const handleEmailChange = (value) => {
-    setEmail(value);
-  };
-  const handlePasswordChange = (value) => {
-    setPassword(value);
-  };
-  const handleConfirmPasswordChange = (value) => {
-    setConfirmPassword(value);
-  };
+  const [userRegistr, setUserRegistr] = useState({
+    name: undefined,
+    surname: undefined,
+    username: undefined,
+    email: undefined,
+    password: undefined,
+    confirmPassword: undefined,
+    statusId: 1,
+  });
+ 
 
   const handleSingup = (event) => {
     event.preventDefault();
     console.log("is there1");
-    const data = {
-      name: name,
-      surname: surname,
-      username: username,
-      email: email,
-      password: password,
-      statusId: 1,
-    };
-    console.log(data.username);
+    if (userRegistr.password!=userRegistr.confirmPassword){
+      console.log("Pessword is not corect");
+    }
+    
+    console.log(userRegistr.username);
     fetch("https://localhost:44370/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(userRegistr),
     })
       .then((response) => response.json())
       //Then with the data from the response in JSON...
       .then((data) => {
         console.log("Success:", data);
+        window.localStorage.setItem("userData", JSON.stringify(userRegistr));
+        console.log(JSON.stringify(userRegistr));
+        navigate("/home");
       })
       //Then with the error genereted...
       .catch((error) => {
         console.error("Error:", error);
       });
+
   };
   return (
     <div>
@@ -95,7 +83,12 @@ function Registration() {
                       id="name"
                       placeholder=""
                       className="form-control"
-                      onChange={(e) => handleNameChange(e.target.value)}
+                      onChange={(e) =>
+                        setUserRegistr((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="col-md-6">
@@ -108,7 +101,12 @@ function Registration() {
                       id="surname"
                       placeholder=""
                       className="form-control"
-                      onChange={(e) => handleSurnameChange(e.target.value)}
+                      onChange={(e) =>
+                        setUserRegistr((prev) => ({
+                          ...prev,
+                          surname: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="col-md-6">
@@ -121,7 +119,12 @@ function Registration() {
                       id="username"
                       placeholder=""
                       className="form-control"
-                      onChange={(e) => handleUsernameChange(e.target.value)}
+                      onChange={(e) =>
+                        setUserRegistr((prev) => ({
+                          ...prev,
+                          username: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="col-md-6">
@@ -134,7 +137,12 @@ function Registration() {
                       id="email"
                       placeholder=""
                       className="form-control"
-                      onChange={(e) => handleEmailChange(e.target.value)}
+                      onChange={(e) =>
+                        setUserRegistr((prev) => ({
+                          ...prev,
+                          email: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="col-md-6">
@@ -147,7 +155,12 @@ function Registration() {
                       id="password"
                       placeholder=""
                       className="form-control"
-                      onChange={(e) => handlePasswordChange(e.target.value)}
+                      onChange={(e) =>
+                        setUserRegistr((prev) => ({
+                          ...prev,
+                          password: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="col-md-6">
@@ -155,13 +168,16 @@ function Registration() {
                       confirm password
                     </label>
                     <input
-                      type="text"
+                      type="password"
                       name="confirm password"
                       id="confirm password"
                       placeholder=""
                       className="form-control"
                       onChange={(e) =>
-                        handleConfirmPasswordChange(e.target.value)
+                        setUserRegistr((prev) => ({
+                          ...prev,
+                          confirmPassword: e.target.value,
+                        }))
                       }
                     />
                   </div>

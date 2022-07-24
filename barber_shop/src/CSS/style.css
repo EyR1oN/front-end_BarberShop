@@ -1458,6 +1458,9 @@ label {
 --------------------------*/
 
 /* service section */
+.errormess{
+  color: red;
+}
 
 .service-block {
   margin-bottom: 30px;
@@ -1715,7 +1718,7 @@ div.registration-field {
 
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
+  display: block; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
