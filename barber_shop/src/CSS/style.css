@@ -1317,6 +1317,9 @@ label {
 .content {
   padding-top: 60px;
   padding-bottom: 60px;
+  background-image: url(./../../public/images/orders-img.jpg);
+  background-position: center;
+ 
 }
 
 /*-----------------------------------
@@ -1715,7 +1718,9 @@ div.registration-field {
 .servises-time {
   margin-bottom: 20px;
 }
-
+.logout{
+  cursor:pointer;
+}
 /* The Modal (background) */
 .modal {
   display: block; /* Hidden by default */
@@ -2283,6 +2288,45 @@ ul.widget-recent-post {
   background-color: #eddba5;
   height: 160px;
   width: 160px;
+}
+/*==========  Orders  ==========*/
+.orders-plus{
+ 
+  padding: 20px;
+ 
+  
+}
+.button-plus{
+  margin: 0 auto;
+  display: block;
+  border-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  width: 150px;
+  font-size: 400%;
+  border-radius: 12px;
+ 
+}
+.button-plus:after {
+  content: "";
+  background: #f1f1f1;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+.button-plus:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
 }
 
 /*==========  Non-Mobile First Method  ==========*/

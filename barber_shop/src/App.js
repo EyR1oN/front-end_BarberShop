@@ -14,6 +14,7 @@ import Services from "./PageComponents/Services";
 import Login from "./PageComponents/Login";
 import Registration from "./PageComponents/Registration";
 import NavBarController from "./PageComponents/NavBarController";
+import Orders from "./PageComponents/Orders";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
+          <Route path="/orders" element={<Orders/>} />
         </Routes>
         <Footer />
       </BrowserRouter>

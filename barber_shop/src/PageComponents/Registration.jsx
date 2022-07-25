@@ -37,6 +37,8 @@ function Registration() {
         window.localStorage.setItem("userData", JSON.stringify(userRegistr));
         console.log(JSON.stringify(userRegistr));
         navigate("/home");
+        window.location.reload();
+
       })
       //Then with the error genereted...
       .catch((error) => {

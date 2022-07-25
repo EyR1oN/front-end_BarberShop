@@ -26,6 +26,8 @@ function Login() {
         setUserLog(data);
         window.localStorage.setItem("userData", JSON.stringify(data[0]));
         navigate("/home");
+        window.location.reload();
+        
       //  console.log( JSON.parse(window.localStorage.getItem("userData")));
       });
       

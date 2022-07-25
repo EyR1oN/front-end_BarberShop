@@ -1,4 +1,4 @@
-import React, { Component, useState} from "react";
+import React, { Component, useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
 import { useNavigate } from "react-router-dom";
@@ -36,14 +36,19 @@ export default function NavBarLogged() {
                   </li>
                   <li>
                     {" "}
-                    <a id="myBtn" onClick={()=>setShowLog(!showLog)}>Log out</a>
+                    <a id="myBtn" class="logout"  onClick={()=>setShowLog(!showLog)}>Log out</a>
                     {showLog &&  <div id="myModal" class="modal">
                       <div class="modal-content">
                         <span class="close" onClick={()=>setShowLog(!showLog)}>&times;</span>
                         <p class="logout-text">Log out of Barbershop?</p>
-                        <button class="logout-button" onClick={()=>{window.localStorage.clear();navigate("/home")}}> Log out</button>
+                        <button class="logout-button" onClick={()=>{window.localStorage.clear();navigate("/home");window.location.reload();}}> Log out</button>
                       </div>
                     </div>}
+                  </li>
+                  <li>
+                    <Link to={"/orders"} title="Orders">
+                    Orders
+                    </Link>
                   </li>
                 </ul>
               </div>
