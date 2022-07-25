@@ -39,6 +39,12 @@ export default function NavBarUnloged() {
                     <Link to={"/registration"} title="Registration">
                       Registration
                     </Link>
+                    
+                  </li>
+                  <li>
+                    <Link to={"/orders"} title="Orders">
+                    Orders
+                    </Link>
                   </li>
                 </ul>
               </div>
