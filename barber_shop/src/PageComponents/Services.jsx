@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+
 function Services() {
   const location = useLocation()
   const [services, setServices] = useState(undefined);
+  const [chosenServices, setChosenServices] = useState(JSON.parse(window.localStorage.getItem("orders"))||[]);
+
   useEffect(() => {
     console.log(location.state);
     fetch("https://localhost:44370/api/service/"+location.state.id)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+       
         setServices(data);
+     
       });
   }, []);
-
-  const handleClick=(data)=>{
-    console.log(data);
-  };
+  
+ 
   return (
     <div>
       <div className="page-header">
@@ -53,10 +55,10 @@ function Services() {
               </div>
             </div>
           </div>
-          <div className="row">
+          <div className="row format">
           {services?.map((service) => {
               return (
-            <div key={service.id} className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div key={service.id} className="col-lg-4 col-md-4 col-sm-4 col-xs-12 form-all">
                <div className="service-block">
                     <div className="service-icon">
                       <img
@@ -69,7 +71,7 @@ function Services() {
                 <div className="service-content">
                   <h2>
                     <Link to="#" className="title">
-                      {service.name}
+                      {service.name} 
                     </Link>
                   </h2>
                   <p>
@@ -79,11 +81,20 @@ function Services() {
                     execution time: <a> {service.timeToMake}</a>
                   </h4>
                   <div className="price"> {service.price}&#x24;</div>
-                  <div className="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
-                     <a href="#" className="btn btn-default" onClick={handleClick}> Add to orders </a>
-                 </div>
+                 
                 </div>
               </div>
+              
+              <div className="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
+                     <a href="#" className="btn btn-default button-servsel" onClick={(value)=>{
+    value.preventDefault(); 
+    setChosenServices(prevState=>[...prevState, service]); 
+ //  console.log( JSON.stringify(chosenServices[0]))
+  window.localStorage.setItem("orders",  JSON.stringify(chosenServices));
+ // console.log(JSON.parse(window.localStorage.getItem("1234")));
+ // console.log(chosenServices);
+  }}> Add to orders </a>
+                 </div>
             </div>
               );
             })}
