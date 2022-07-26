@@ -313,7 +313,7 @@ label {
 .btn {
   display: inline-block;
   padding: 14px 30px;
-  margin-bottom: 0;
+  margin-bottom: 40px;
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 1px;
@@ -1317,11 +1317,20 @@ label {
 .content {
   padding-top: 60px;
   padding-bottom: 60px;
-  background-image: url(./../../public/images/orders-img.jpg);
-  background-position: center;
  
 }
-
+.back-photo{
+  background-image: url(./../../public/images/orders-img.jpg);
+  background-position: center;
+}
+.back-white{
+  background-color: white;
+  width: 80%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+ margin-left: 10%;
+}
 /*-----------------------------------
 8. Footer 
 -------------------------------------*/
@@ -1787,6 +1796,9 @@ div.registration-field {
  10. Blog pages
 --------------------------*/
 .content {
+  display: flex;
+  justify-content: center;
+ 
 }
 .sidebar {
 }
