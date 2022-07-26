@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 function Services() {
+  const location = useLocation()
+  const [services, setServices] = useState(undefined);
+  useEffect(() => {
+    console.log(location.state);
+    fetch("https://localhost:44370/api/service/"+location.state.id)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setServices(data);
+      });
+  }, []);
+
+  const handleClick=(data)=>{
+    console.log(data);
+  };
   return (
     <div>
       <div className="page-header">
@@ -8,9 +24,9 @@ function Services() {
           <div className="row">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div className="page-caption">
-                <h2 className="page-title">...</h2>
+                <h2 className="page-title">SERVICES</h2>
                 <div className="page-breadcrumb">
-                  <ol className="breadcrumb">
+                  <ul className="breadcrumb">
                     <li>
                       <a href="/home">Home</a>
                     </li>
@@ -18,8 +34,10 @@ function Services() {
                       <a href="/categoryList">Barbershop category</a>
                     </li>
                     <li className="active">services list</li>
-                  </ol>
+                  </ul>
+                  
                 </div>
+                
               </div>
             </div>
           </div>
@@ -36,29 +54,39 @@ function Services() {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-              <div className="service-block">
-                <div className="service-icon mb20">
-                  <img src={"./images/service-icon-1.png"} alt=" " />
-                </div>
+          {services?.map((service) => {
+              return (
+            <div key={service.id} className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+               <div className="service-block">
+                    <div className="service-icon">
+                      <img
+                        src={service.picture}
+                        className="img-category"
+                        alt=" "
+                      />
+                    </div>
 
                 <div className="service-content">
                   <h2>
-                    <a href="#" className="title">
-                      traditional cut
-                    </a>
+                    <Link to="#" className="title">
+                      {service.name}
+                    </Link>
                   </h2>
                   <p>
-                    Responsive website templates free download html5 with css3
-                    for Hair Salon and Shop website template.
+                  {service.description}
                   </p>
                   <h4 className="servises-time">
-                    execution time: <a>30m</a>
+                    execution time: <a> {service.timeToMake}</a>
                   </h4>
-                  <div className="price">$45</div>
+                  <div className="price"> {service.price}&#x24;</div>
+                  <div className="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
+                     <a href="#" className="btn btn-default" onClick={handleClick}> Add to orders </a>
+                 </div>
                 </div>
               </div>
             </div>
+              );
+            })}
           </div>
         </div>
       </div>

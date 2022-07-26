@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 function CategoryList() {
   const [categories, setCategories] = useState(undefined);
   useEffect(() => {
@@ -60,9 +60,9 @@ function CategoryList() {
 
                     <div className="service-content">
                       <h2>
-                        <a href="/services" className="title">
+                        <Link to={"/services/"+category.id} className="title" state={{id:category.id}}>
                           {category.name}
-                        </a>
+                        </Link>
                       </h2>
                       <p>{category.description}</p>
                     </div>
