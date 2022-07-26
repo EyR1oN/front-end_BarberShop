@@ -1313,6 +1313,27 @@ label {
 /*-----------------------------------
 7. Content 
 -------------------------------------*/
+.format{
+  display: flex;
+  
+}
+.form-all{
+  flex: 1; /* additionally, equal width */
+  
+  padding: 1em;
+  
+  position:relative;
+}
+.button-servsel{
+  position: absolute;
+  
+	left: 10%;
+  
+  
+}
+.text-center{
+  padding: 3%;
+}
 
 .content {
   padding-top: 60px;
@@ -1476,6 +1497,7 @@ label {
 
 .service-block {
   margin-bottom: 30px;
+  height: 90%;
 }
 .service-img {
   margin-bottom: 30px;
@@ -1495,8 +1517,10 @@ label {
 .img-category {
   width: 200px;
   height: 200px;
+  border-radius: 12px;
 }
 .service-icon {
+  
 }
 .service-icon img {
 }
@@ -1511,6 +1535,7 @@ label {
   color: #aa9144;
   font-weight: 600;
   font-family: sans-serif;
+ 
 }
 
 /*-----------------------------------------
