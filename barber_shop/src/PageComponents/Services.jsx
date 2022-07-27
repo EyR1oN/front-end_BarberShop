@@ -5,9 +5,9 @@ import { Link, useLocation } from "react-router-dom";
 function Services() {
   const location = useLocation()
   const [services, setServices] = useState(undefined);
-  const [chosenServices, setChosenServices] = useState(JSON.parse(window.localStorage.getItem("orders"))||[]);
-
+  const [chosenServices, setChosenServices] = useState(JSON.parse(window.localStorage.getItem("order1"))||[]);
   useEffect(() => {
+   
     console.log(location.state);
     fetch("https://localhost:44370/api/service/"+location.state.id)
       .then((response) => response.json())
@@ -88,10 +88,14 @@ function Services() {
               <div className="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
                      <a href="#" className="btn btn-default button-servsel" onClick={(value)=>{
     value.preventDefault(); 
-    setChosenServices(prevState=>[...prevState, service]); 
- //  console.log( JSON.stringify(chosenServices[0]))
-  window.localStorage.setItem("orders",  JSON.stringify(chosenServices));
- // console.log(JSON.parse(window.localStorage.getItem("1234")));
+    console.log(chosenServices.length)
+  
+ 
+      setChosenServices(prevState=>[...prevState, service]); 
+
+  // console.log( JSON.stringify(chosenServices))
+  window.localStorage.setItem("order1",  JSON.stringify(chosenServices));
+  console.log(JSON.parse(window.localStorage.getItem("order1")));
  // console.log(chosenServices);
   }}> Add to orders </a>
                  </div>
