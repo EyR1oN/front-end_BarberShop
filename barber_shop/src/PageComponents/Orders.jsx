@@ -1,15 +1,51 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
+import DatePicker from "react-datepicker";
+
+//import'react-datepicker/dist/react-datepicker.css'
+
+
 
 export default function Orders() {
+  const addMonths = require('addmonths')
   const [orders, setOrders] = useState(JSON.parse(window.localStorage.getItem("order1"))||[]);
+  const[showDate, setShowDate]=useState(false);
+  
   useEffect(() => {
     console.log(orders); 
    
   }, []);
- 
-let count=0;
+  
+    const [startDate, setStartDate] = useState(setHours(setMinutes(new Date(), 30), 16));
+    const [endDate, setEndDate] = useState(null);
+    const onChange = (dates) => {
+      const [start] = dates;
+      setStartDate(start);
+    
+    };
 
+    let handleColor = (time) => {
+      return time.getHours() > 12 ? "text-success" : "text-error";
+    };
+let count=0;
+let hour=0;
+let all=0;
+let minute=0;
+let sumHour=0;
+let sumMinute=0;
+let sumTime=0;
+const time=(time1)=>{
+  hour=time1.split(":", 1);
+  all=time1.split(":", 2);
+  minute=all.slice(1, 2);
+  sumHour=Number(sumHour)+Number(hour);
+  sumMinute=Number(sumMinute)+Number(minute);
+  sumTime=Number(sumTime)+Number(minute)+Number(sumHour*60);
+  console.log(sumHour+"hour  "+sumMinute+"minute  "); 
+  console.log("AllTime:"+sumTime); 
+}
   return (
     <div>
       
@@ -51,7 +87,7 @@ let count=0;
                       />
               </td>
               <td className="order-text">{order.name}</td>
-              <td className="order-text" >{order.timeToMake}</td>
+              <td className="order-text"  onLoad ={time(order.timeToMake)}>{hour+"h"+" "+minute+"m"}</td>
               <td className="order-text price1" onLoad ={count=count+(order.price)}>{order.price}$  </td>
               <td className="butcent">
                
@@ -71,6 +107,7 @@ let count=0;
         </table> 
         <div className="d-flex justify-content-end">
           <h5 className=" justify-content-end">Total: <span className="price text-success">{count}$</span></h5>
+          <h5 className=" justify-content-end">All Time: <span className="price text-success">{sumTime}m</span></h5>
         </div>
       </div>
                 </div>
@@ -85,9 +122,35 @@ let count=0;
                      </div> 
                  </div>
                  <div className="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
-                     <a href="#" className="btn btn-default"> Place your order </a>
+                     <a href="#" className="btn btn-default" onClick={()=>setShowDate(!showDate)}> Place your order </a>
+                     {showDate &&  <div id="myModal" class="modal">
+                      <div class="modal-content2">
+                        <span class="close" onClick={()=>setShowDate(!showDate)}>&times;</span>
+                        <DatePicker
+      selected={startDate}
+      onChange={(date) => setStartDate(date)}
+      showTimeSelect
+      minDate={new Date()}
+      maxDate={addMonths(new Date(), 5)}
+      excludeTimes={[
+        setHours(setMinutes(new Date(), 0), 17),
+        setHours(setMinutes(new Date(), 30), 18),
+        setHours(setMinutes(new Date(), 30), 19),
+        setHours(setMinutes(new Date(), 30), 17),
+      ]}
+      dateFormat="MMMM d, yyyy h:mm aa"
+    
+                           inline
+                         
+                        />
+                      </div>
+                    </div>}
                  </div>
-                 
+                 <div>
+              
+
+</div>
+
               </form>
             </div>
           </div>
