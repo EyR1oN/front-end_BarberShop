@@ -1801,9 +1801,9 @@ div.registration-field {
 .modal-content2 {
   background-color: #fefefe;
   margin: 10% auto; /* 15% from the top and centered */
-  padding: 20px;
+  padding: 10px;
   border: 1px solid #888;
-  width: 38%; /* Could be more or less, depending on screen size */
+  width: 75%; /* Could be more or less, depending on screen size */
 }
 /* The Close Button */
 .close {
@@ -3058,7 +3058,7 @@ ul.widget-recent-post {
   .react-datepicker__time-box
   ul.react-datepicker__time-list
   li.react-datepicker__time-list-item--selected {
-  background-color: #f5deb3;
+  background-color: #af883f;
   color: white;
   font-weight: bold;
 }
@@ -3067,7 +3067,7 @@ ul.widget-recent-post {
   .react-datepicker__time-box
   ul.react-datepicker__time-list
   li.react-datepicker__time-list-item--selected:hover {
-  background-color: #f5deb3;
+  background-color: #af883f;
 }
 .react-datepicker__time-container
   .react-datepicker__time
@@ -3208,7 +3208,7 @@ ul.widget-recent-post {
 .react-datepicker__year-text--in-selecting-range,
 .react-datepicker__year-text--in-range {
   border-radius: 0.3rem;
-  background-color: #f5deb3;
+  background-color: #af883f;
   color: #fff;
 }
 .react-datepicker__day--selected:hover,
@@ -3223,7 +3223,7 @@ ul.widget-recent-post {
 .react-datepicker__year-text--selected:hover,
 .react-datepicker__year-text--in-selecting-range:hover,
 .react-datepicker__year-text--in-range:hover {
-  background-color: #f5deb3;
+  background-color: #af883f;
 }
 .react-datepicker__day--keyboard-selected,
 .react-datepicker__month-text--keyboard-selected,

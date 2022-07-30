@@ -38,25 +38,25 @@ export default function NavBarLogged() {
                     {" "}
                     <a
                       id="myBtn"
-                      class="logout"
+                      className="logout"
                       onClick={() => setShowLog(!showLog)}
                     >
                       Log out
                     </a>
                     {showLog && (
-                      <div id="myModal" class="modal">
-                        <div class="modal-content">
+                      <div id="myModal" className="modal">
+                        <div className="modal-content">
                           <span
-                            class="close"
+                            className="close"
                             onClick={() => setShowLog(!showLog)}
                           >
                             &times;
                           </span>
-                          <p class="logout-text">Log out of Barbershop?</p>
+                          <p className="logout-text">Log out of Barbershop?</p>
                           <button
-                            class="logout-button"
+                            className="logout-button"
                             onClick={() => {
-                              window.localStorage.clear();
+                              window.localStorage.removeItem("userData");
                               navigate("/home");
                               window.location.reload();
                             }}
