@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-    let navigate = useNavigate();
+  let navigate = useNavigate();
   const [userLog, setUserLog] = useState({
     username: "",
     password: "",
   });
-  const [formErrors, setFormErrors]= useState({});
+  const [formErrors, setFormErrors] = useState({});
   //const [isSubmit, setIsSubmit]= useState(false);
 
   const handleLogin = (event) => {
     setFormErrors(validate(userLog));
-   // setIsSubmit(true);
+    // setIsSubmit(true);
     event.preventDefault();
     fetch(
       "https://localhost:44370/api/user/" +
@@ -27,24 +27,22 @@ function Login() {
         window.localStorage.setItem("userData", JSON.stringify(data[0]));
         navigate("/home");
         window.location.reload();
-        
-      //  console.log( JSON.parse(window.localStorage.getItem("userData")));
+
+        //  console.log( JSON.parse(window.localStorage.getItem("userData")));
       });
-      
   };
 
- 
-  const validate=(values)=>{
-    const errors={};
-  //  const regex=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if(!values.username){
-      errors.username="Username is required!";
-   }
-   if(!values.password){
-      errors.password="Password is required!";
-  }
+  const validate = (values) => {
+    const errors = {};
+    //  const regex=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!values.username) {
+      errors.username = "Username is required!";
+    }
+    if (!values.password) {
+      errors.password = "Password is required!";
+    }
     return errors;
-};
+  };
 
   return (
     <div>

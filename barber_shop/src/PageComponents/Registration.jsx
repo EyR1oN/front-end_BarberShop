@@ -13,15 +13,14 @@ function Registration() {
     confirmPassword: undefined,
     statusId: 1,
   });
- 
 
   const handleSingup = (event) => {
     event.preventDefault();
     console.log("is there1");
-    if (userRegistr.password!=userRegistr.confirmPassword){
+    if (userRegistr.password != userRegistr.confirmPassword) {
       console.log("Pessword is not corect");
     }
-    
+
     console.log(userRegistr.username);
     fetch("https://localhost:44370/api/user", {
       method: "POST",
@@ -38,13 +37,11 @@ function Registration() {
         console.log(JSON.stringify(userRegistr));
         navigate("/home");
         window.location.reload();
-
       })
       //Then with the error genereted...
       .catch((error) => {
         console.error("Error:", error);
       });
-
   };
   return (
     <div>
