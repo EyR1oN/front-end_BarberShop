@@ -60,7 +60,11 @@ function CategoryList() {
 
                     <div className="service-content">
                       <h2>
-                        <Link to={"/services/"+category.id} className="title" state={{id:category.id}}>
+                        <Link
+                          to={"/services/" + category.id}
+                          className="title"
+                          state={{ id: category.id }}
+                        >
                           {category.name}
                         </Link>
                       </h2>
