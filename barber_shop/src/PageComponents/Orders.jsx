@@ -3,32 +3,32 @@ import { Link, useLocation } from "react-router-dom";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import DatePicker from "react-datepicker";
-
+import { useNavigate } from "react-router-dom";
+import toSQLtime from "../Helpers/DateTimeConvertor"
 //import'react-datepicker/dist/react-datepicker.css'
 
 export default function Orders() {
+  let navigate = useNavigate();
   const addMonths = require("addmonths");
   const [orders, setOrders] = useState(
     JSON.parse(window.localStorage.getItem("order1")) || []
   );
   const [showDate, setShowDate] = useState(false);
+  const[postOrder,setPostOrder]=useState({
+    userId: undefined,
+    serviceId: undefined,
+    placeId: undefined,
+    data_time: undefined,
+    services_execution_time: undefined,
 
-  useEffect(() => {
-    console.log(orders);
-  }, []);
+  });
 
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
-  const [endDate, setEndDate] = useState(null);
-  const onChange = (dates) => {
-    const [start] = dates;
-    setStartDate(start);
-  };
+ 
 
-  let handleColor = (time) => {
-    return time.getHours() > 12 ? "text-success" : "text-error";
-  };
+ 
   let count = 0;
   let hour = 0;
   let all = 0;
@@ -43,8 +43,41 @@ export default function Orders() {
     sumHour = Number(sumHour) + Number(hour);
     sumMinute = Number(sumMinute) + Number(minute);
     sumTime = Number(sumTime) + Number(minute) + Number(sumHour * 60);
-    console.log(sumHour + "hour  " + sumMinute + "minute  ");
-    console.log("AllTime:" + sumTime);
+   // console.log(sumHour + "hour  " + sumMinute + "minute  ");
+   // console.log("AllTime:" + sumTime);
+  };
+ 
+
+  const handleConfirm=(sumTime)=>{
+   console.log({
+    userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
+    serviceId: (JSON.parse(window.localStorage.getItem("order1"))).id,
+    placeId: 1,
+    data_time: toSQLtime(startDate),
+    services_execution_time: sumTime
+ })
+    fetch("https://localhost:44370/api/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+         userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
+         serviceId: (JSON.parse(window.localStorage.getItem("order1"))).id,
+         placeId: 1,
+         data_time: toSQLtime(startDate),
+         services_execution_time: sumTime
+      }),
+    })
+      .then((response) => response.json())
+      //Then with the data from the response in JSON...
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      //Then with the error genereted...
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
   return (
     <div>
@@ -91,7 +124,7 @@ export default function Orders() {
                                 </td>
                                 <td
                                   className="order-text price1"
-                                  onLoad={(count = count + order.price)}
+                                  onLoad={count = count + order.price}
                                 >
                                   {order.price}${" "}
                                 </td>
@@ -144,16 +177,29 @@ export default function Orders() {
                   <a
                     href="#"
                     className="btn btn-default"
-                    onClick={() => setShowDate(!showDate)}
+                    onClick={() => {
+                      
+                      console.log(window.localStorage);
+                      if(window.localStorage.getItem("userData")==null)
+                      {
+                        alert("You aren't logged in");
+                        navigate("/login");
+                      }
+                      else
+                      {
+                        setShowDate(!showDate);
+                      }
+                    }
+                    }
                   >
                     {" "}
                     Place your order{" "}
                   </a>
                   {showDate && (
-                    <div id="myModal" class="modal">
-                      <div class="modal-content2">
+                    <div id="myModal" className="modal">
+                      <div className="modal-content2">
                         <span
-                          class="close"
+                          className="close"
                           onClick={() => setShowDate(!showDate)}
                         >
                           &times;
@@ -165,20 +211,31 @@ export default function Orders() {
                           selected={startDate}
                           onChange={(date) => setStartDate(date)}
                           showTimeSelect
+                          timeFormat="HH:mm"
+                          minTime={setHours(setMinutes(new Date(), 0), 9)}
+                          maxTime={setHours(setMinutes(new Date(), 0), 18)}
                           minDate={new Date()}
-                          maxDate={addMonths(new Date(), 5)}
-                          excludeTimes={[
+                       
+
+                         /* excludeTimes={[
                             setHours(setMinutes(new Date(), 0), 17),
                             setHours(setMinutes(new Date(), 30), 18),
                             setHours(setMinutes(new Date(), 30), 19),
                             setHours(setMinutes(new Date(), 30), 17),
-                          ]}
+                          ]}*/
                           dateFormat="MMMM d, yyyy h:mm aa"
+                          
                           inline
                         />
-                        <a
+                       <a
                           href="#"
                           className="btn btn-default"
+                          onClick={()=>
+                            
+                            {
+                             
+                              handleConfirm(sumTime);
+                            }}
                         >
                           Confirm order
                         </a>

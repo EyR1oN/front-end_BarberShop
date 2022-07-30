@@ -5,7 +5,7 @@ function Services() {
   const location = useLocation();
   const [services, setServices] = useState(undefined);
   useEffect(() => {
-    console.log(location.state);
+  
     fetch("https://localhost:44370/api/service/" + location.state.id)
       .then((response) => response.json())
       .then((data) => {
@@ -15,7 +15,9 @@ function Services() {
 
   const handleAddOrder = (value, service) => {
     value.preventDefault();
-    const list = JSON.parse(window.localStorage.getItem("order1"));
+    const list = JSON.parse(window.localStorage.getItem("order1"))||[];
+   console.log(list);
+  
     list.push(service);
     window.localStorage.setItem("order1", JSON.stringify(list));
   };
@@ -87,7 +89,9 @@ function Services() {
                     <a
                       href="#"
                       className="btn btn-default button-servsel"
-                      onClick={(value) => handleAddOrder(value, service)}
+                      onClick={
+                        (value) => handleAddOrder(value, service)
+                      }
                     >
                       {" "}
                       Add to orders{" "}
