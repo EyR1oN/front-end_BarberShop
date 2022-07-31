@@ -15,18 +15,18 @@ export default function Orders() {
   );
   const [showDate, setShowDate] = useState(false);
   const[postOrder,setPostOrder]=useState({
-    userId: undefined,
-    serviceId: undefined,
-    placeId: undefined,
-    data_time: undefined,
-    services_execution_time: undefined,
+    userId: 1,
+    serviceId: 1,
+    placeId: 1,
+    data_time: "2020-08-20 23:02:02",
+    
 
   });
 
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
- 
+  
 
  
   let count = 0;
@@ -46,39 +46,66 @@ export default function Orders() {
    // console.log(sumHour + "hour  " + sumMinute + "minute  ");
    // console.log("AllTime:" + sumTime);
   };
- 
 
+ 
   const handleConfirm=(sumTime)=>{
-   console.log({
+
+ 
+    console.log("qqqqq  "+Number(sumTime))
+ for (let prop in JSON.parse(window.localStorage.getItem("order1"))){
+  console.log({
     userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
-    serviceId: (JSON.parse(window.localStorage.getItem("order1"))).id,
+    serviceId: JSON.parse(window.localStorage.getItem("order1"))[prop].id,
     placeId: 1,
     data_time: toSQLtime(startDate),
-    services_execution_time: sumTime
+  
  })
-    fetch("https://localhost:44370/api/order", {
+
+  let time1=toSQLtime(startDate).split(" ")
+  let time2=(time1[1].split(":"));
+  let hour_from_DB=time2[0];
+  let minute_from_DB=time2[1];
+  let sumTimeFromDB =Number(minute_from_DB) + Number(hour_from_DB * 60);
+  console.log("qxxxx - "+sumTimeFromDB);
+  let PrimeTime=Number(sumTimeFromDB)+Number(sumTime);
+  console.log(sumTime);
+  console.log(PrimeTime);
+    var hours = (Number(PrimeTime) / 60);
+    var rhours = Math.floor(hours);
+    var minutes = (hours - rhours) * 60;
+    var rminutes = Math.round(minutes);
+  console.log(rhours+" : "+rminutes);
+  
+   /* fetch("https://localhost:44370/api/order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        
+        'Authorization': 'Basic '+btoa((JSON.parse(window.localStorage.getItem("userData"))).username+':'+(JSON.parse(window.localStorage.getItem("userPassword")))),
+        
       },
-      body: JSON.stringify({
-         userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
-         serviceId: (JSON.parse(window.localStorage.getItem("order1"))).id,
-         placeId: 1,
-         data_time: toSQLtime(startDate),
-         services_execution_time: sumTime
-      }),
+      body: JSON.stringify( {
+      userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
+      serviceId: JSON.parse(window.localStorage.getItem("order1"))[prop].id,
+      placeId: 1,
+      data_time: toSQLtime(startDate),
+    })
+        
+      
     })
       .then((response) => response.json())
       //Then with the data from the response in JSON...
+      
       .then((data) => {
+       
         console.log("Success:", data);
       })
       //Then with the error genereted...
       .catch((error) => {
+         console.log("hhjhj");
         console.error("Error:", error);
-      });
-  };
+      });*/
+  };}
   return (
     <div>
       <div className="content back-photo">
@@ -188,7 +215,9 @@ export default function Orders() {
                       else
                       {
                         setShowDate(!showDate);
+                        
                       }
+                     
                     }
                     }
                   >
@@ -217,12 +246,12 @@ export default function Orders() {
                           minDate={new Date()}
                        
 
-                         /* excludeTimes={[
-                            setHours(setMinutes(new Date(), 0), 17),
+                          excludeTimes={[
+                           
                             setHours(setMinutes(new Date(), 30), 18),
                             setHours(setMinutes(new Date(), 30), 19),
                             setHours(setMinutes(new Date(), 30), 17),
-                          ]}*/
+                          ]}
                           dateFormat="MMMM d, yyyy h:mm aa"
                           
                           inline
@@ -231,11 +260,10 @@ export default function Orders() {
                           href="#"
                           className="btn btn-default"
                           onClick={()=>
-                            
                             {
-                             
                               handleConfirm(sumTime);
-                            }}
+                            }
+                          }
                         >
                           Confirm order
                         </a>

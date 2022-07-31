@@ -57,6 +57,7 @@ export default function NavBarLogged() {
                             className="logout-button"
                             onClick={() => {
                               window.localStorage.removeItem("userData");
+                              window.localStorage.removeItem("userPassword");
                               navigate("/home");
                               window.location.reload();
                             }}

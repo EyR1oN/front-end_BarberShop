@@ -12,8 +12,10 @@ function Login() {
 
   const handleLogin = (event) => {
     setFormErrors(validate(userLog));
+   // console.log(userLog.password);
     // setIsSubmit(true);
     event.preventDefault();
+   
     fetch(
       "https://localhost:44370/api/user/" +
         userLog.username +
@@ -30,6 +32,8 @@ function Login() {
 
         //  console.log( JSON.parse(window.localStorage.getItem("userData")));
       });
+      window.localStorage.setItem("userPassword", JSON.stringify(userLog.password));
+      
   };
 
   const validate = (values) => {
