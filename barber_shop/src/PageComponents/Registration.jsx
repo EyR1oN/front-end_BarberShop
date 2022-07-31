@@ -20,8 +20,8 @@ function Registration() {
     if (userRegistr.password != userRegistr.confirmPassword) {
       console.log("Pessword is not corect");
     }
-
-    console.log(userRegistr.username);
+    console.log(userRegistr.password);
+    console.log("hhh "+JSON.parse(window.localStorage.getItem("userData")));
     fetch("https://localhost:44370/api/user", {
       method: "POST",
       headers: {
@@ -33,15 +33,16 @@ function Registration() {
       //Then with the data from the response in JSON...
       .then((data) => {
         console.log("Success:", data);
-        window.localStorage.setItem("userData", JSON.stringify(userRegistr));
+       // window.localStorage.setItem("userData", JSON.stringify(userRegistr));
         console.log(JSON.stringify(userRegistr));
-        navigate("/home");
+        navigate("/login");
         window.location.reload();
       })
       //Then with the error genereted...
       .catch((error) => {
         console.error("Error:", error);
       });
+     // window.localStorage.setItem("userPassword", JSON.stringify(userRegistr.password));
   };
   return (
     <div>
