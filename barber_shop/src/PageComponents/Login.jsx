@@ -17,7 +17,7 @@ function Login() {
     event.preventDefault();
    
     fetch(
-      "https://localhost:44370/api/user/" +
+      "https://localhost:5001/api/user/" +
         userLog.username +
         "/" +
         userLog.password

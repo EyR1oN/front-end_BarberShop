@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function CategoryList() {
   const [categories, setCategories] = useState(undefined);
   useEffect(() => {
-    fetch("https://localhost:44370/api/category")
+    fetch("https://localhost:5001/api/category")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
