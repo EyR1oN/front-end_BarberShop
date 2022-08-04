@@ -4,7 +4,8 @@ import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
-import toSQLtime from "../Helpers/DateTimeConvertor"
+import {toSQLdateTime, addTime }from "../Helpers/DateTimeConvertor"
+
 //import'react-datepicker/dist/react-datepicker.css'
 
 export default function Orders() {
@@ -24,9 +25,10 @@ export default function Orders() {
   });
 
   const [startDate, setStartDate] = useState(
-    setHours(setMinutes(new Date(), 30), 16)
+    setHours(setMinutes(new Date(), 0), 0)
+   //new Date()
   );
-  
+  const [checkTime, setCheckTime] = useState([]);
 
  
   let count = 0;
@@ -48,20 +50,59 @@ export default function Orders() {
   };
 
  
-  const handleConfirm=(sumTime)=>{
+const checkIncludedTime=(date)=>{
+ 
+  
+  
+   // event.preventDefault();
+  // console.log("https://localhost:5001/api/order/" +sumTime+"/"+toSQLdateTime(date,"date"));
+    fetch(
+      "https://localhost:5001/api/order/" +sumTime+"/"+toSQLdateTime(date,"date")
+       
+    )
+      .then((response) => response.json())
+      .then((data) => {
+      //  console.log(data);
+       // console.log("count "+data.length);
+        let arr=[];
+      for(let i=0;i<data.length;i++){
+      
+        var hours = (Number(data[i]) / 60);
+        var rhours = Math.floor(hours);
+        var minutes = (hours - rhours) * 60;
+        var rminutes = Math.round(minutes);
+     // console.log(rhours+" : "+rminutes);
+      arr.push(setHours(setMinutes(new Date(), rminutes), rhours));
+      }
+      //console.log(arr);
+      setCheckTime(arr);
+      });
+   
+    
+  };
+
+
 
  
-    console.log("qqqqq  "+Number(sumTime))
- for (let prop in JSON.parse(window.localStorage.getItem("order1"))){
-  console.log({
-    userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
-    serviceId: JSON.parse(window.localStorage.getItem("order1"))[prop].id,
-    placeId: 1,
-    data_time: toSQLtime(startDate),
+  const handleConfirm=(sumTime)=>{
   
- })
-
-  let time1=toSQLtime(startDate).split(" ")
+    console.log("qqqqq  "+Number(sumTime))
+    const OrderArr=[];
+    let timeForServices=toSQLdateTime(startDate,"time");
+   for (let prop in JSON.parse(window.localStorage.getItem("order1"))){
+   
+     OrderArr.push( {userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
+     serviceId: JSON.parse(window.localStorage.getItem("order1"))[prop].id,
+     placeId: 1,
+     date: toSQLdateTime(startDate,"date"),
+     time: timeForServices,});
+     timeForServices=addTime(JSON.parse(window.localStorage.getItem("order1"))[prop].timeToMake,timeForServices)
+    // console.log(JSON.parse(window.localStorage.getItem("order1"))[prop].timeToMake);
+    // console.log("timeForServices   "+timeForServices);
+   }
+ //  console.log(OrderArr);
+    
+ /* let time1=toSQLdateTime(startDate).split(" ")
   let time2=(time1[1].split(":"));
   let hour_from_DB=time2[0];
   let minute_from_DB=time2[1];
@@ -74,9 +115,9 @@ export default function Orders() {
     var rhours = Math.floor(hours);
     var minutes = (hours - rhours) * 60;
     var rminutes = Math.round(minutes);
-  console.log(rhours+" : "+rminutes);
-  
-   /* fetch("https://localhost:44370/api/order", {
+  console.log(rhours+" : "+rminutes);*/
+  console.log(JSON.stringify(OrderArr));
+    fetch("https://localhost:5001/api/order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -84,12 +125,9 @@ export default function Orders() {
         'Authorization': 'Basic '+btoa((JSON.parse(window.localStorage.getItem("userData"))).username+':'+(JSON.parse(window.localStorage.getItem("userPassword")))),
         
       },
-      body: JSON.stringify( {
-      userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
-      serviceId: JSON.parse(window.localStorage.getItem("order1"))[prop].id,
-      placeId: 1,
-      data_time: toSQLtime(startDate),
-    })
+      body: JSON.stringify({orders: OrderArr})
+     
+    
         
       
     })
@@ -104,8 +142,8 @@ export default function Orders() {
       .catch((error) => {
          console.log("hhjhj");
         console.error("Error:", error);
-      });*/
-  };}
+      });
+  };
   return (
     <div>
       <div className="content back-photo">
@@ -215,7 +253,7 @@ export default function Orders() {
                       else
                       {
                         setShowDate(!showDate);
-                        
+                       // checkIncludedTime();
                       }
                      
                     }
@@ -229,7 +267,11 @@ export default function Orders() {
                       <div className="modal-content2">
                         <span
                           className="close"
-                          onClick={() => setShowDate(!showDate)}
+                          onClick={() => setShowDate(!showDate)
+                           //</div> checkIncludedTime();
+                          //  console.log(showDate);
+                          
+                          }
                         >
                           &times;
                         </span>
@@ -238,20 +280,37 @@ export default function Orders() {
                         </p>
                         <DatePicker
                           selected={startDate}
-                          onChange={(date) => setStartDate(date)}
+                          onChange={(date) => 
+                           { 
+                            setStartDate(date);
+                            checkIncludedTime(date);
+                               console.log(toSQLdateTime(date,"date"));
+                               console.log(setHours(setMinutes(new Date(), 0), 9)>new Date()?setHours(setMinutes(new Date(), 0), 9):new Date());
+                          }
+                          }
                           showTimeSelect
                           timeFormat="HH:mm"
-                          minTime={setHours(setMinutes(new Date(), 0), 9)}
+
+                          minTime={setHours(setMinutes(new Date(), 0), 9)
+                            // ()=>{
+                            //   console.log("hhh")
+                            //   if(toSQLdateTime(new Date, "date")>toSQLdateTime(startDate,"date")){
+                            //     console.log("if")
+                            //    return(setHours(setMinutes(new Date(), 0), 9))
+                            // }
+                            //   else{
+                            //     console.log("else")
+                            //     return(new Date())
+                            //  }
+                            // }
+                        }
                           maxTime={setHours(setMinutes(new Date(), 0), 18)}
                           minDate={new Date()}
                        
-
-                          excludeTimes={[
-                           
-                            setHours(setMinutes(new Date(), 30), 18),
-                            setHours(setMinutes(new Date(), 30), 19),
-                            setHours(setMinutes(new Date(), 30), 17),
-                          ]}
+                          includeTimes={
+                            checkTime
+                          }
+                        
                           dateFormat="MMMM d, yyyy h:mm aa"
                           
                           inline

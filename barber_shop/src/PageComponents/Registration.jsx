@@ -22,7 +22,7 @@ function Registration() {
     }
     console.log(userRegistr.password);
     console.log("hhh "+JSON.parse(window.localStorage.getItem("userData")));
-    fetch("https://localhost:44370/api/user", {
+    fetch("https://localhost:5001/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

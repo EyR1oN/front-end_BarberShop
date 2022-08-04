@@ -6,7 +6,7 @@ function Services() {
   const [services, setServices] = useState(undefined);
   useEffect(() => {
   
-    fetch("https://localhost:44370/api/service/" + location.state.id)
+    fetch("https://localhost:5001/api/service/" + location.state.id)
       .then((response) => response.json())
       .then((data) => {
         setServices(data);
