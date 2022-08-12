@@ -8,12 +8,8 @@ function Login() {
     password: "",
   });
   const [formErrors, setFormErrors] = useState({});
-  //const [isSubmit, setIsSubmit]= useState(false);
-
   const handleLogin = (event) => {
     setFormErrors(validate(userLog));
-   // console.log(userLog.password);
-    // setIsSubmit(true);
     event.preventDefault();
    
     fetch(
@@ -30,7 +26,7 @@ function Login() {
         navigate("/home");
         window.location.reload();
 
-        //  console.log( JSON.parse(window.localStorage.getItem("userData")));
+     
       });
       window.localStorage.setItem("userPassword", JSON.stringify(userLog.password));
       
@@ -38,7 +34,7 @@ function Login() {
 
   const validate = (values) => {
     const errors = {};
-    //  const regex=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    
     if (!values.username) {
       errors.username = "Username is required!";
     }

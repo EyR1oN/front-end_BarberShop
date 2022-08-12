@@ -33,7 +33,7 @@ function Registration() {
       //Then with the data from the response in JSON...
       .then((data) => {
         console.log("Success:", data);
-       // window.localStorage.setItem("userData", JSON.stringify(userRegistr));
+     
         console.log(JSON.stringify(userRegistr));
         navigate("/login");
         window.location.reload();
@@ -42,7 +42,7 @@ function Registration() {
       .catch((error) => {
         console.error("Error:", error);
       });
-     // window.localStorage.setItem("userPassword", JSON.stringify(userRegistr.password));
+   
   };
   return (
     <div>
