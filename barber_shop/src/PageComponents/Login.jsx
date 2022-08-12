@@ -10,8 +10,9 @@ function Login() {
   const [formErrors, setFormErrors] = useState({});
   const handleLogin = (event) => {
     setFormErrors(validate(userLog));
+
     event.preventDefault();
-   
+
     fetch(
       "https://localhost:5001/api/user/" +
         userLog.username +
@@ -28,8 +29,10 @@ function Login() {
 
      
       });
-      window.localStorage.setItem("userPassword", JSON.stringify(userLog.password));
-      
+    window.localStorage.setItem(
+      "userPassword",
+      JSON.stringify(userLog.password)
+    );
   };
 
   const validate = (values) => {
