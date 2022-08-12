@@ -46,12 +46,14 @@ export default function NavBarLogged() {
                     {showLog && (
                       <div id="myModal" className="modal">
                         <div className="modal-content">
+                          <div>
                           <span
                             className="close"
                             onClick={() => setShowLog(!showLog)}
                           >
                             &times;
                           </span>
+                      
                           <p className="logout-text">Log out of Barbershop?</p>
                           <button
                             className="logout-button"
@@ -65,6 +67,7 @@ export default function NavBarLogged() {
                             {" "}
                             Log out
                           </button>
+                          </div>
                         </div>
                       </div>
                     )}

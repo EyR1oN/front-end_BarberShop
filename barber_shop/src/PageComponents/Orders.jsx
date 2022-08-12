@@ -6,7 +6,6 @@ import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
 import { toSQLdateTime, addTime } from "../Helpers/DateTimeConvertor";
 
-//import'react-datepicker/dist/react-datepicker.css'
 
 export default function Orders() {
   let navigate = useNavigate();
@@ -24,7 +23,7 @@ export default function Orders() {
 
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 0), 0)
-    //new Date()
+
   );
   const [checkTime, setCheckTime] = useState([]);
 
@@ -42,13 +41,15 @@ export default function Orders() {
     sumHour = Number(sumHour) + Number(hour);
     sumMinute = Number(sumMinute) + Number(minute);
     sumTime = Number(sumTime) + Number(minute) + Number(sumHour * 60);
-    // console.log(sumHour + "hour  " + sumMinute + "minute  ");
-    // console.log("AllTime:" + sumTime);
+
   };
 
-  const checkIncludedTime = (date) => {
-    // event.preventDefault();
-    // console.log("https://localhost:5001/api/order/" +sumTime+"/"+toSQLdateTime(date,"date"));
+ 
+const checkIncludedTime=(date)=>{
+ 
+  
+  
+
     fetch(
       "https://localhost:5001/api/order/" +
         sumTime +
@@ -57,19 +58,20 @@ export default function Orders() {
     )
       .then((response) => response.json())
       .then((data) => {
-        //  console.log(data);
-        // console.log("count "+data.length);
-        let arr = [];
-        for (let i = 0; i < data.length; i++) {
-          var hours = Number(data[i]) / 60;
-          var rhours = Math.floor(hours);
-          var minutes = (hours - rhours) * 60;
-          var rminutes = Math.round(minutes);
-          // console.log(rhours+" : "+rminutes);
-          arr.push(setHours(setMinutes(new Date(), rminutes), rhours));
-        }
-        //console.log(arr);
-        setCheckTime(arr);
+
+        let arr=[];
+      for(let i=0;i<data.length;i++){
+      
+        var hours = (Number(data[i]) / 60);
+        var rhours = Math.floor(hours);
+        var minutes = (hours - rhours) * 60;
+        var rminutes = Math.round(minutes);
+   
+      arr.push(setHours(setMinutes(new Date(), rminutes), rhours));
+      }
+     
+      setCheckTime(arr);
+
       });
   };
 
@@ -94,22 +96,27 @@ export default function Orders() {
     }
     //  console.log(OrderArr);
 
-    /* let time1=toSQLdateTime(startDate).split(" ")
-  let time2=(time1[1].split(":"));
-  let hour_from_DB=time2[0];
-  let minute_from_DB=time2[1];
-  let sumTimeFromDB =Number(minute_from_DB) + Number(hour_from_DB * 60);
-  console.log("qxxxx - "+sumTimeFromDB);
-  let PrimeTime=Number(sumTimeFromDB)+Number(sumTime);
-  console.log(sumTime);
-  console.log(PrimeTime);
-    var hours = (Number(PrimeTime) / 60);
-    var rhours = Math.floor(hours);
-    var minutes = (hours - rhours) * 60;
-    var rminutes = Math.round(minutes);
-  console.log(rhours+" : "+rminutes);*/
-    console.log(JSON.stringify(OrderArr));
-    fetch("https://localhost:5001/api/order", {
+
+
+ 
+  const handleConfirm=(sumTime)=>{
+  
+    console.log("qqqqq  "+Number(sumTime))
+    const OrderArr=[];
+    let timeForServices=toSQLdateTime(startDate,"time");
+   for (let prop in JSON.parse(window.localStorage.getItem("order1"))){
+   
+     OrderArr.push( {userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
+     serviceId: JSON.parse(window.localStorage.getItem("order1"))[prop].id,
+     placeId: 1,
+     date: toSQLdateTime(startDate,"date"),
+     time: timeForServices,});
+     timeForServices=addTime(JSON.parse(window.localStorage.getItem("order1"))[prop].timeToMake,timeForServices)
+
+   }
+  console.log(JSON.stringify(OrderArr));
+    fetch("https://localhost:5001/api/order/" +sumTime, {
+
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -122,7 +129,13 @@ export default function Orders() {
               JSON.parse(window.localStorage.getItem("userPassword"))
           ),
       },
-      body: JSON.stringify(OrderArr),
+
+      body: JSON.stringify(OrderArr)
+     
+    
+        
+      
+
     })
       .then((response) => response.json())
       //Then with the data from the response in JSON...
@@ -231,7 +244,7 @@ export default function Orders() {
                   </div>
                 </div>
                 <div className="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
-                  <a
+                  {orders.length != 0 && <a
                     href="#"
                     className="btn btn-default"
                     onClick={() => {
@@ -241,22 +254,25 @@ export default function Orders() {
                         navigate("/login");
                       } else {
                         setShowDate(!showDate);
-                        // checkIncludedTime();
+
+                     
+
                       }
                     }}
                   >
                     {" "}
                     Place your order{" "}
-                  </a>
+                  </a>}
                   {showDate && (
                     <div id="myModal" className="modal">
                       <div className="modal-content2">
                         <span
                           className="close"
-                          onClick={
-                            () => setShowDate(!showDate)
-                            //</div> checkIncludedTime();
-                            //  console.log(showDate);
+
+                          onClick={() => setShowDate(!showDate)
+                        
+                          
+
                           }
                         >
                           &times;
@@ -279,20 +295,12 @@ export default function Orders() {
                           }}
                           showTimeSelect
                           timeFormat="HH:mm"
-                          minTime={
-                            setHours(setMinutes(new Date(), 0), 9)
-                            // ()=>{
-                            //   console.log("hhh")
-                            //   if(toSQLdateTime(new Date, "date")>toSQLdateTime(startDate,"date")){
-                            //     console.log("if")
-                            //    return(setHours(setMinutes(new Date(), 0), 9))
-                            // }
-                            //   else{
-                            //     console.log("else")
-                            //     return(new Date())
-                            //  }
-                            // }
-                          }
+
+
+                          minTime={setHours(setMinutes(new Date(), 0), 9)
+                         
+                        }
+
                           maxTime={setHours(setMinutes(new Date(), 0), 18)}
                           minDate={new Date()}
                           includeTimes={checkTime}
