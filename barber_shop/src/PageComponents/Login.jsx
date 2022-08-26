@@ -21,30 +21,42 @@ function Login() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data[0]);
         setUserLog(data);
+        if(data=="Error"){
+          window.localStorage.removeItem("userData")
+          console.log("d");
+        }
+        else{
         window.localStorage.setItem("userData", JSON.stringify(data[0]));
         navigate("/home");
         window.location.reload();
+        }
 
      
       });
-    window.localStorage.setItem(
-      "userPassword",
-      JSON.stringify(userLog.password)
-    );
+
+      window.localStorage.setItem("userPassword", JSON.stringify(userLog.password));
+      setFormErrors(validate(userLog));
   };
 
+ 
   const validate = (values) => {
+    console.log("ooo  "+window.localStorage.getItem("userData"))
     const errors = {};
-    
-    if (!values.username) {
+     
+    if (!values.username ) {
       errors.username = "Username is required!";
     }
-    if (!values.password) {
+    if (!values.password ) {
       errors.password = "Password is required!";
+      
     }
-    return errors;
+    if( window.localStorage.getItem("userData")===null)
+   {
+    errors.full = "Sorry, your password or username were incorrect";
+   }
+ 
+  return errors;
   };
 
   return (
@@ -93,8 +105,10 @@ function Login() {
                         }))
                       }
                     />
+                    <p className="errormess">{formErrors.username}</p>
                   </div>
-                  <p className="errormess">{formErrors.username}</p>
+                 
+                  
                   <div className="login-data">
                     <label className="control-label" htmlFor="password">
                       Password
@@ -112,18 +126,39 @@ function Login() {
                         }))
                       }
                     />
+                     <p className="errormess">{formErrors.password}</p>
                   </div>
-                  <p className="errormess">{formErrors.password}</p>
+                 
                   <div className="col-md-12">
                     <div className="login-register-button">
                       <button
                         id="singlebutton"
                         name="singlebutton"
                         className="btn btn-default"
-                        onClick={handleLogin}
+                        
+                        onClick={ // handleLogin
+                          (e) => {
+                            handleLogin(e);
+                                                
+                            if(window.localStorage.getItem("userData")===null)
+                            {
+                            //  alert("Incorrect username or password");
+                            //  navigate("/login");
+                              console.log("not logined");
+                            //  window.location.reload();
+                            }
+                            else
+                            {
+                              console.log("logined");
+                            }
+                           
+                          }
+                        }
                       >
                         Login
                       </button>
+
+                      <p className="errormess">{formErrors.full}</p>
                     </div>
                   </div>
                 </div>
