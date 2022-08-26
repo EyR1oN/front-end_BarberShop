@@ -4,7 +4,7 @@ import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
-import {toSQLdateTime, addTime }from "../Helpers/DateTimeConvertor"
+import {toSQLdateTime, addTime, toMinutes }from "../Helpers/DateTimeConvertor"
 
 
 export default function Orders() {
@@ -19,16 +19,16 @@ export default function Orders() {
     serviceId: 1,
     placeId: 1,
     data_time: "2020-08-20 23:02:02",
-    
-
   });
-
+  const [showBoard, setShowBoard] = useState(false);
+  const [showErrorBoard, setShowErrorBoard] = useState(false);
+  let openWind=false;
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 0), 0)
   
   );
   const [checkTime, setCheckTime] = useState([]);
-
+  let timeForServices=toSQLdateTime(startDate,"time");
  
   let count = 0;
   let hour = 0;
@@ -77,12 +77,14 @@ const checkIncludedTime=(date)=>{
 
 
 
- 
+  
   const handleConfirm=(sumTime)=>{
   
     console.log("qqqqq  "+Number(sumTime))
     const OrderArr=[];
-    let timeForServices=toSQLdateTime(startDate,"time");
+    
+   
+    console.log("444-  "+startDate+"   "+toMinutes(timeForServices))
    for (let prop in JSON.parse(window.localStorage.getItem("order1"))){
    
      OrderArr.push( {userId: (JSON.parse(window.localStorage.getItem("userData"))).id,
@@ -114,6 +116,8 @@ const checkIncludedTime=(date)=>{
       .then((data) => {
        
         console.log("Success:", data);
+        openWind=true;
+        setShowBoard(!showBoard)
       })
       //Then with the error genereted...
       .catch((error) => {
@@ -222,7 +226,7 @@ const checkIncludedTime=(date)=>{
                     onClick={() => {
                       
                       console.log(window.localStorage);
-                      if(window.localStorage.getItem("userData")==null)
+                      if(window.localStorage.getItem("userData")==null || window.localStorage.getItem("userData")=='"E"')
                       {
                         alert("You aren't logged in");
                         navigate("/login");
@@ -262,7 +266,8 @@ const checkIncludedTime=(date)=>{
                             checkIncludedTime(date);
                                console.log(toSQLdateTime(date,"date"));
                                console.log(setHours(setMinutes(new Date(), 0), 9)>new Date()?setHours(setMinutes(new Date(), 0), 9):new Date());
-                          }
+                                
+                           }
                           }
                           showTimeSelect
                           timeFormat="HH:mm"
@@ -286,12 +291,69 @@ const checkIncludedTime=(date)=>{
                           className="btn btn-default"
                           onClick={()=>
                             {
+                              if(toMinutes(timeForServices)===0){
+                                setShowErrorBoard(!showErrorBoard);
+                              }
+                               else{
                               handleConfirm(sumTime);
+                              }
                             }
                           }
                         >
                           Confirm order
                         </a>
+                        {showErrorBoard && (
+                      <div id="myModal" className="modal">
+                        <div className="modal-content-showErrorBoard">
+                          <div>
+                          <span
+                            className="close"
+                            onClick={() => setShowErrorBoard(!showErrorBoard)}
+                          >
+                            &times;
+                          </span>
+                      
+                          <p className="logout-text showErrorBoard-text"  >Please, select an order time!</p>
+                          <button
+                            className="showErrorBoard-button" 
+                            onClick={() => setShowErrorBoard(!showErrorBoard)}
+                          >
+                           
+                            Go back
+                          </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                        {showBoard && (
+                      <div id="myModal" className="modal">
+                        <div className="modal-content-showErrorBoard">
+                          <div>
+                          <span
+                            className="close"
+                            onClick={() => setShowBoard(!showBoard)}
+                          >
+                            &times;
+                          </span>
+                      
+                          <p className="logout-text">Your order has been accepted. Return to the selection of services?</p>
+                          <button
+                            className="showErrorBoard-button" 
+                            onClick={()=>
+                              {
+                                window.localStorage.removeItem("order1")
+                                navigate("/categoryList");
+                               
+                              }}
+                          >
+                            {" "}
+                            category list
+                          </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                       </div>
                     </div>
                   )}

@@ -1736,8 +1736,8 @@ address {
   text-align: center;
 }
 div.login-field {
-  margin-left: 0%;
-  margin-right: 0%;
+  margin-left: 20%;
+  margin-right: 20%;
   padding: 20px;
 }
 /*.login-data{
@@ -1760,9 +1760,9 @@ div.login-field {
   text-align: center;
 }
 div.registration-field {
-  margin-left: 200px;
-  margin-right: 200px;
-  padding: 30px;
+  margin-left: 100px;
+  margin-right: 100px;
+  padding: 0px;
 }
 .psw {
   margin-top: 20px;
@@ -1794,16 +1794,25 @@ div.registration-field {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
+  border: 0px solid rgb(214, 185, 88);
   width: 50%; /* Could be more or less, depending on screen size */
   height: 20%;
 }
+.modal-content-showErrorBoard {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 0px solid rgb(214, 185, 88);
+  width: 50%; /* Could be more or less, depending on screen size */
+  height: 25%;
+}
 .modal-content2 {
   background-color: #fefefe;
-  margin: 10% auto; /* 15% from the top and centered */
+  margin: 10.5% auto; /* 15% from the top and centered */
+  margin-bottom: 50px;
   padding: 10px;
   border: 1px solid #888;
-  width: 75%; /* Could be more or less, depending on screen size */
+  width: 81%; /* Could be more or less, depending on screen size */
 }
 /* The Close Button */
 .close {
@@ -1818,6 +1827,29 @@ div.registration-field {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+.showErrorBoard-button {
+  
+  
+  height: 100%; /* Could be more or less, depending on screen size */
+  width: 40%;
+  display: inline-block;
+  padding: 14px 4px;
+  margin-bottom: 0;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1.42857143;
+  text-align: center;
+  
+  border: none;
+  text-transform: uppercase;
+  border-radius: 100px;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: #fff;
+  background-color: #aa9144;
 }
 .logout-button {
   
@@ -1844,6 +1876,10 @@ div.registration-field {
 }
 .logout-text {
   text-align: center;
+}
+.showErrorBoard-text{
+  color: red;
+  font-size: 17px;
 }
 /*------------------------
  10. Blog pages

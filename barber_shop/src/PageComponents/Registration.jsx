@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Registration() {
   let navigate = useNavigate();
-
+  let errormassage=false;
   const [userRegistr, setUserRegistr] = useState({
     name: undefined,
     surname: undefined,
@@ -13,21 +13,75 @@ function Registration() {
     confirmPassword: undefined,
     statusId: 1,
   });
-
+  const [userLogName, setUserLogName] = useState(undefined);
+  const [formErrors, setFormErrors] = useState({});
+  let countLogedUser=0;
+  useEffect(() => {
+    fetch("https://localhost:5001/api/user")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setUserLogName(data);
+       
+        
+       
+      });
+      //console.log("count---"+Object.keys(userLogName).length);
+     // 
+  }, []);
+  const checkRightConfirmPassword=()=>{
+    if (userRegistr.password != userRegistr.confirmPassword) {
+   //   console.log("Pessword is not corect");
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+ 
   const handleSingup = (event) => {
+    setFormErrors(validate(userRegistr));
+    //console.log("datALOG---"+userLogName[0].username);
     event.preventDefault();
     console.log("is there1");
-    if (userRegistr.password != userRegistr.confirmPassword) {
-      console.log("Pessword is not corect");
-    }
-    console.log(userRegistr.password);
+    console.log("i   "+userRegistr.password);
+    console.log("i1  "+userRegistr.confirmPassword);
+    
+    console.log("un "+userRegistr.username);
     console.log("hhh "+JSON.parse(window.localStorage.getItem("userData")));
+    console.log("cvvv "+Object.keys(userLogName).length)
+    for(let i=0; i<Object.keys(userLogName).length;i++){
+      console.log("bbbb "+userLogName[i].username)
+      if(userLogName[i].username==userRegistr.username){
+        countLogedUser=countLogedUser+1;
+        console.log("countt "+countLogedUser)
+                         
+      }
+    }
+    if(countLogedUser!==0){
+      alert("User with this username already exists");
+      navigate("/registration");
+      window.location.reload();    
+    }
+    /*fetch(
+      "https://localhost:5001/api/user"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setUserLogName(data);
+        console.log("data- "+ JSON.stringify(userLogName.username));
+        console.log("lll- "+data)
+      });*/
+     // const [categories, setCategories] = useState(undefined);
+     if (userRegistr.password === userRegistr.confirmPassword) { 
     fetch("https://localhost:5001/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+     
       body: JSON.stringify(userRegistr),
+     
     })
       .then((response) => response.json())
       //Then with the data from the response in JSON...
@@ -42,7 +96,26 @@ function Registration() {
       .catch((error) => {
         console.error("Error:", error);
       });
-   
+    }
+    else{
+      console.log("Error:"+ "The Confirm Password confirmation does not match");
+    }
+  };
+  const validate = (values) => {
+    const errors = {};
+    
+    if (!values.username) {
+      errors.username = "Username is required!";
+    }
+    if (!values.password) {
+      errors.password = "Password is required!";
+      
+    }
+    if (userRegistr.password !== userRegistr.confirmPassword) {
+      errors.confirmPassword = "The Confirm Password confirmation does not match!";
+     
+    }
+    return errors;
   };
   return (
     <div>
@@ -126,7 +199,10 @@ function Registration() {
                         }))
                       }
                     />
+                    <p className="errormess">{formErrors.username}</p>
                   </div>
+                 
+                  
                   <div className="col-md-6">
                     <label className="control-label" htmlFor="email">
                       email
@@ -149,6 +225,7 @@ function Registration() {
                     <label className="control-label" htmlFor="password">
                       password
                     </label>
+                   
                     <input
                       type="password"
                       name="password"
@@ -162,7 +239,9 @@ function Registration() {
                         }))
                       }
                     />
+                     <p className="errormess">{formErrors.password}</p>
                   </div>
+
                   <div className="col-md-6">
                     <label className="control-label" htmlFor="confirm-password">
                       confirm password
@@ -180,6 +259,7 @@ function Registration() {
                         }))
                       }
                     />
+                     <p className="errormess">{formErrors.confirmPassword}</p>
                   </div>
 
                   <div className="col-md-12">
@@ -188,7 +268,7 @@ function Registration() {
                         id="singlebutton"
                         name="singlebutton"
                         className="btn btn-default"
-                        onClick={handleSingup}
+                        onClick= {handleSingup}
                       >
                         sing up
                       </button>
