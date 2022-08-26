@@ -44,6 +44,7 @@ function Registration() {
     //console.log("datALOG---"+userLogName[0].username);
     event.preventDefault();
     console.log("is there1");
+
     console.log("i   "+userRegistr.password);
     console.log("i1  "+userRegistr.confirmPassword);
     
@@ -74,6 +75,7 @@ function Registration() {
       });*/
      // const [categories, setCategories] = useState(undefined);
      if (userRegistr.password === userRegistr.confirmPassword) { 
+
     fetch("https://localhost:5001/api/user", {
       method: "POST",
       headers: {
@@ -87,7 +89,9 @@ function Registration() {
       //Then with the data from the response in JSON...
       .then((data) => {
         console.log("Success:", data);
+
      
+
         console.log(JSON.stringify(userRegistr));
         navigate("/login");
         window.location.reload();
@@ -96,6 +100,7 @@ function Registration() {
       .catch((error) => {
         console.error("Error:", error);
       });
+
     }
     else{
       console.log("Error:"+ "The Confirm Password confirmation does not match");
@@ -116,6 +121,7 @@ function Registration() {
      
     }
     return errors;
+
   };
   return (
     <div>
